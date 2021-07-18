@@ -1,13 +1,12 @@
 import './App.css';
 import {useState, useEffect} from "react";
 import Templates from './components/Templates';
-
+import Meme from './components/Meme';
 
 function App() {
 
   const [templates, setTemplates]= useState([]);
   const [meme, setMeme]= useState(null);
-
   useEffect(() => 
       {
               fetch("https://api.imgflip.com/get_memes")
@@ -15,21 +14,13 @@ function App() {
                   .then((data) => 
                   {
                     setTemplates(data.data.memes);
-                      console.log(data.data.memes);
-                  });
+                      });
         }, []);
 
   return (
     <div className="App">
-      <div className="template">
-        {templates.map((template) => (
-          <div key={template.id} className="template">
-            <div
-              style={{ backgroundImage: `url(${template.url})` }}
-              className="image"
-            ></div>
-          </div>
-        ))}</div>
+      <h1>Meme Generator</h1>
+      {meme === null ? (<Templates templates={templates} setMeme={setMeme} />) : (<Meme meme={meme} setMeme={setMeme}/>) }
     </div>
   );
 }
